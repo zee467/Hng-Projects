@@ -7,7 +7,7 @@ import calendar
 app = Flask(__name__)
 
 
-@app.route("/info")
+@app.route("/api")
 def index():
     slack_name = request.args.get("slack_name")
     track = request.args.get("track")
