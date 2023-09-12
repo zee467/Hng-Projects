@@ -1,0 +1,6 @@
+/__pycache__
+/instance
+/venv
+.flaskenv
+*.txt
+!requirements.txt
