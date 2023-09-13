@@ -35,10 +35,6 @@ Create a person (POST)
 Endpoint: /api
 Send a POST request with JSON data to create a new record.
 
-Read person (GET)
-Endpoint: /api
-Send a GET request to retrieve all records from the database.
-
 Read a specific person details (GET)
 Endpoint: /api/<string:user_id>
 Send a GET request to retrieve a specific person record by ID from the database.
