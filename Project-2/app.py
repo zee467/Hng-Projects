@@ -12,6 +12,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # instantiate db
 db = SQLAlchemy(app)
 
+# A database model class
 class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
@@ -57,11 +58,18 @@ def not_found(error):
 # create a person
 @app.route("/api", methods=["POST"])
 def create_person():
-    if not request.json or not "name" in request.json:
+    data = request.json
+    fields = ["name", "email", "age"]
+    if not data:
         abort(400)
 
-    exisiting_person = Person.query.filter_by(name=request.json.get("name")).first()
-    if not exisiting_person:
+    for field in fields:
+        if field not in data:
+            abort(400)
+
+    exisiting_name = Person.query.filter_by(name=request.json.get("name")).first()
+    existing_email = Person.query.filter_by(name=request.json.get("email")).first()
+    if not exisiting_name or not existing_email:
         new_person = Person(name=request.json.get("name"),
                             email=request.json.get("email"),
                             age = request.json.get("age")
@@ -70,7 +78,7 @@ def create_person():
         db.session.commit()
         return jsonify({"person": new_person.as_dict()}), 201
     else:
-        return jsonify({"message": "Person already exist in the database!"}), 404
+        return jsonify({"message": "Person already exist in the database!"}), 409  
     
 
 # update a person detail
@@ -99,4 +107,6 @@ def delete_person(user_id):
     
     db.session.delete(existing_user)
     db.session.commit()
-    return jsonify({"message": "This person has been deleted!"})
+    return jsonify({"message": "This person has been deleted!"}), 204
+
+
