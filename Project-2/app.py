@@ -48,11 +48,17 @@ def get_specific_person(name):
 
 @app.errorhandler(400)
 def invalid_err(error):
-    return make_response(jsonify({"message": "Invalid request"}), 400)
+    return make_response(jsonify({"error": "Invalid input. Please check your name and email."}), 400)
 
 @app.errorhandler(404)
 def not_found(error):
-    return make_response(jsonify({"message": "This person doesn't exist!"}), 404)
+    return make_response(jsonify({"error": "This person doesn't exist!"}), 404)
+
+def check_email_exists(person_email):
+    return Person.query.filter_by(email=person_email).first()
+
+def check_name_exists(person_name):
+    return Person.query.filter_by(email=person_name).first()  
 
 
 # create a person
@@ -67,9 +73,9 @@ def create_person():
         if field not in data:
             abort(400)
 
-    exisiting_name = Person.query.filter_by(name=request.json.get("name")).first()
-    existing_email = Person.query.filter_by(name=request.json.get("email")).first()
-    if not exisiting_name or not existing_email:
+    name = request.json.get("name")
+    email = request.json.get("email")
+    if not check_name_exists(name) and not check_email_exists(email):
         new_person = Person(name=request.json.get("name"),
                             email=request.json.get("email"),
                             age = request.json.get("age")
