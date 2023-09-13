@@ -23,8 +23,8 @@ Install the required dependencies using pip:
 pip install -r requirements.txt
 
 Running the API
-To run the API locally, use the following command:
-python app.py
+To run the API locally, use any of the following commands:
+python app.py or flask run(use this when your project folder has a Flask env file with configuration variables.)
 
 The API will start running on http://localhost:5000.
 
@@ -38,6 +38,10 @@ Send a POST request with JSON data to create a new record.
 Read person (GET)
 Endpoint: /api
 Send a GET request to retrieve all records from the database.
+
+Read a specific person details (GET)
+Endpoint: /api/<string:user_id>
+Send a GET request to retrieve a specific person record by ID from the database.
 
 Update a person (PUT)
 Endpoint: /api/<string:user_id>
