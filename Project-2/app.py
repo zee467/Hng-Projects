@@ -27,23 +27,23 @@ class Person(db.Model):
 
 
 # fetches all the records in the database
-@app.route("/api", methods=["GET"])
+@app.route("/api/persons", methods=["GET"])
 def get_person():
     people = Person.query.all()
     people_list = [person.as_dict() for person in people]
 
     # jsonify serializes dicts, list, and tuples to a JSON response
-    return jsonify({"people": people_list})
+    return jsonify({"people": people_list}), 200
 
 
 # query for a specific person in the database
-@app.route("/api/<string:name>", methods=["GET"])
-def get_specific_person(name):
-    person = Person.query.filter_by(name=name).first()
+@app.route("/api/persons/<id>", methods=["GET"])
+def get_specific_person(id):
+    person = Person.query.filter_by(id=id).first()
     if not person:
         abort(404)
 
-    return jsonify(result=[person.as_dict()])
+    return jsonify(result=[person.as_dict()]), 200
 
 
 @app.errorhandler(400)
@@ -62,7 +62,7 @@ def check_name_exists(person_name):
 
 
 # create a person
-@app.route("/api", methods=["POST"])
+@app.route("/api/persons", methods=["POST"])
 def create_person():
     data = request.json
     fields = ["name", "email", "age"]
@@ -88,9 +88,9 @@ def create_person():
     
 
 # update a person detail
-@app.route("/api/<string:user_id>", methods=["PUT"])
-def update_person_info(user_id):
-    person = Person.query.filter_by(id=user_id).first()
+@app.route("/api/persons/<id>", methods=["PUT"])
+def update_person_info(id):
+    person = Person.query.filter_by(id=id).first()
 
     if not person:
         abort(404)
@@ -101,18 +101,18 @@ def update_person_info(user_id):
     db.session.add(person)
     db.session.commit()
 
-    return jsonify({"person": person.as_dict()})
+    return jsonify({"person": person.as_dict()}), 200
 
 
 # delete a person
-@app.route("/api/<string:user_id>", methods=["DELETE"])
-def delete_person(user_id):
-    existing_user = Person.query.filter_by(id=user_id).first()
+@app.route("/api/persons/<id>", methods=["DELETE"])
+def delete_person(id):
+    existing_user = Person.query.filter_by(id=id).first()
     if not existing_user:
         abort(404)
     
     db.session.delete(existing_user)
     db.session.commit()
-    return jsonify({"message": "This person has been deleted!"}), 204
+    return '', 204
 
 
