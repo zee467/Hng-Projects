@@ -1,6 +1,10 @@
 from flask import Flask, jsonify, abort, make_response, request
 from flask_sqlalchemy import SQLAlchemy
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .flaskenv file
+load_dotenv(".flaskenv")
 
 
 # create flask instance
