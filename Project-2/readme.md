@@ -31,20 +31,24 @@ The API will start running on http://localhost:5000.
 How to Use the API
 The API provides the following endpoints:
 
+Read person (GET)
+Endpoint: /api/persons
+Send a GET request to retrieve all records from the database.
+
 Create a person (POST)
-Endpoint: /api
+Endpoint: /api/persons
 Send a POST request with JSON data to create a new record.
 
 Read a specific person details (GET)
-Endpoint: /api/<string:user_id>
+Endpoint: /api/persons/<id>
 Send a GET request to retrieve a specific person record by ID from the database.
 
 Update a person (PUT)
-Endpoint: /api/<string:user_id>
+Endpoint: /api/persons/<id>
 Send a PUT request with JSON data to update a specific person by ID.
 
 Delete a person (DELETE)
-Endpoint: /api/<string:user_id>
+Endpoint: /api/persons/<id>
 Send a DELETE request to remove a specific record by ID.
 
 For more detailed information on how to use each endpoint, check the API documentation file.
